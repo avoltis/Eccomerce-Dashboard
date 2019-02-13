@@ -1,8 +1,44 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+require('dotenv').config();
+
+const url = `https://sheets.googleapis.com/v4/spreadsheets/${
+  process.env.REACT_APP_SPREADSHEET_ID
+}/values:batchGet?ranges=Sheet1&majorDimension=ROWS&key=${
+  process.env.REACT_APP_GOOGLESHEETS_API_KEY
+}`;
 
 class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      items: []
+    };
+  }
+
+  componentDidMount() {
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        // debugger;
+        let batchRowValues = data.valueRanges[0].values;
+
+        const rows = [];
+        for (let i = 1; i < batchRowValues.length; i++) {
+          let rowObject = {};
+
+          for (let j = 0; j < i; j++) {
+            rowObject[batchRowValues[0][j]] = batchRowValues[i][j];
+          }
+          rows.push(rowObject);
+        }
+
+        this.setState({ items: rows });
+        console.log(this.state);
+      });
+  }
+
   render() {
     return (
       <div className="App">

@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "bootstrap": "^4.2.1",
+    "dotenv": "^6.2.0",
     "fusioncharts": "^3.13.3-sr.1",
     "fusionmaps": "^3.13.1-sr.1",
     "react": "^16.8.1",
